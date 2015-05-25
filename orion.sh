@@ -44,7 +44,7 @@ function checkAdmin {
     meteorSetup
     meteor add materialize:materialize orionjs:materialize
     echo "cd ${args[2]}";;
-    *) echo "please enter a valid distribution";;
+    *) echo "please enter a valid admin theme";;
   esac
 }
 
