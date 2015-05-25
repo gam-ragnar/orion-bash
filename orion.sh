@@ -1,52 +1,61 @@
 #!/bin/bash
 # Orion automated script
 #save arguements in array 
-# args=("$@")
+#
+#
 
-if [ ${args[0]} = "dist"]; then 
+args=("$@")
+
+getAdmin
+getDist
+
+
+
+# commands
+# dl for git clone distribution
+# usage orion dl distName
+# 
+
+function getAdmin {
+  if [ ${args[0]} = "admin" ]; then 
+    echo "only admim theme will be added ${args[1]}"
+    meteor create ${args[1]}
+    echo "cd into" ${args[1]}
+    cd ${args[1]}
+    echo "meteor remove insecure autopublish"
+    meteor remove insecure autopublish
+    meteor add orionjs:core twbs:bootstrap orionjs:bootstrap
+    echo "start meteor"
+    meteor 
+  fi
+}
+
+function getDist {
+  if [ ${args[0]} = "dl" ]; then 
   echo "grabbing your" ${args[1]}
-  mkdir ${args[0]}
-  cd ${args[0]}
+  mkdir ${args[1]}
+  cd ${args[1]}
   `git clone https://github.com/orionjs/examples.git`
   cd examples
-  mv blog/* ..
+  shopt -s dotglob
+  `sudo mv blog/* ../`
   cd ..
   rm -rf examples
   cd  ..
-else
-    echo "args one is null"
-fi
+  fi
+}
 
-
-
-# meteor create ${args[0]}
-
-# cd ${args[0]}
-# echo "cd into" ${args[0]}
-# meteor remove insecure autopublish
-# echo "meteor remove insecure autopublish"
-# meteor add orionjs:core twbs:bootstrap orionjs:bootstrap
-# echo "start meteor"
-# meteor 
-
-
-
-# distribution = funtion( ${args[2]}){
-#   ${args[1]} = null;
-#   ${args[2]} = null;
-#   function gitter(${args[1]})
-#   {
-#     if [ ${args[1]}=null ]; then 
-#       echo "args one is null"
-#     else
-#       echo "there is value"
-#     fi
-
-#     }
-#   }
-  
-
-# }
+# else
+#     echo "use a admin or dl "
+#function quit {
+#                exit
+#            }
+# function hello {
+#      echo Hello!
+#  }
+#   hello
+#   quit
+#   echo foo 
 
 # listDist = {
 #   bootstrap:'twbs:bootstrap orionjs:bootstrap',
