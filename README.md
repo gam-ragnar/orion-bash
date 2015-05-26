@@ -11,8 +11,8 @@ There are currently 3 admin themes now
 * materialize
 
 ## Install full distribution
-`./orion.sh dl distributionName`
-i.e `./orion.sh dl blog`
+`./orion.sh dl distributionName AppName`
+i.e `./orion.sh dl blog helpinghands`
 There are presently 1 distribution
 * blog
 

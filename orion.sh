@@ -8,15 +8,15 @@ args=("$@")
 function checkDist {
   case ${args[1]} in 
     blog) echo "grabbing your" ${args[1]} 
-    mkdir ${args[1]}
-    cd ${args[1]}
-    `git clone https://github.com/orionjs/examples.git`
+    mkdir ${args[2]}
+    cd ${args[2]}
+    `git clone https://github.com/orionjs/examples.git `
     cd examples
     shopt -s dotglob
-    `sudo mv blog/* ../`
+    `sudo mv ${args[1]}/* ..`
     cd ..
     rm -rf examples
-    echo "cd ${args[1]}";;
+    echo "cd ${args[2]}";;
     *) echo "please enter a valid distribution";;
   esac
 }
