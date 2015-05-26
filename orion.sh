@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash -x
 # Orion automated script that allows you to install either admin or full distribution from shell
 
 #save passed arguements in array 
