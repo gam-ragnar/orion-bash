@@ -48,22 +48,86 @@ function checkAdmin {
   esac
 }
 
+#Get extra packages
+function addExtras {
+  meteor add coffeescript mquandalle:jade
+}
 #Grab admin theme
 # i.e orion.sh admin bootstrap AppName 
-function getAdmin {
+function Admin {
   if [ ${args[0]} = "admin" ]; then 
     checkAdmin
   fi
 }
 # # grab Orion Distribution
 # # orion.sh dl DistributionName
-function getDist {
+function Dist {
   if [ ${args[0]} = "dl" ]; then 
-  checkDist
+    checkDist
   fi
 }
 
+#grab top seo packages
+function getExtras {
+  case ${args[2]} in 
+    seo) echo "setting up seo packages"
+    meteor add meteorhacks:inject-initial gadicohen:sitemaps gadicohen:robots-txt
+#meteorhacks:ssr
+;;
+    dev) echo "setting up dev tools"
+    meteor add audit-argument-checks manuel:viewmodel-explorer msavin:mongol msavin:jetsetter raix:handlebar-helpers jag:pince mquandalle:bower manuel:viewmodel dburles:factory anti:fake
+  ;;
+  compile) echo "setting up compilation tools"
+    meteor add coffeescript mquandalle:jade mquandalle:stylus
+    ;;
+  perform) echo "setting up performance"
+  meteor add meteorhacks:subs-manager meteorhacks:inject-initial
+  esac
+}
+#sample ./orion.sh extras AppName seo
+#this will cd into app and add group of packages
+function Extras {
+  if [ ${args[0]} = "extras" ]; then 
+    cd ${args[1]}
+    getExtras
+  fi
+}
+
+#Switch theme packages
+function switchTheme {
+  local BS="twbs:bootstrap orionjs:bootstrap"
+ local FOU="ewall:foundation rwatts:orionjs-foundation"
+ local MAT="materialize:materialize orionjs:materialize" 
+  case ${args[2]} in 
+    foundation) echo "switching to foundation"
+      meteor remove $BS $MAT
+      meteor add $FOU
+;;
+    bootstrap) echo "switching to bootstrap tools"
+      meteor remove $MAT $FOU
+      meteor add $BS
+  ;;
+  materialize) echo "switching to materialize"
+    meteor remove $BS $FOU
+    meteor add $MAT
+    ;;
+  performance) echo "setting up performance"
+  meteor add meteorhacks:subs-manager meteorhacks:inject-initial
+  esac
+}
+#this will cd into app and remove old theme then add new one
+function Switch {
+  if [ ${args[0]} = "switch" ]; then 
+    cd ${args[1]}
+    switchTheme
+  fi
+}
 # instantiate bash
-getAdmin
-getDist
+Admin
+# orion.sh dl DistributionName
+Dist
+#sample ./orion.sh extras seo AppName
+Extras
+# orion.sh switch AppName themeName
+Switch
 
